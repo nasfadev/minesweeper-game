@@ -1,3 +1,3 @@
 export default class Config {
-  static size = 3;
+  static size = 10;
 }
