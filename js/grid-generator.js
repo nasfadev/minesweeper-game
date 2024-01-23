@@ -1,8 +1,7 @@
 import Config from "./config.js";
-
-const mainCanvas = document.getElementById("main-canvas");
-const ctx = mainCanvas.getContext("2d", { alpha: false });
-const gridWidth = mainCanvas.width / Config.size;
+import * as Canvas from "./canvas.js";
+const gridWidth = Canvas.main.width / Config.size;
+const ctx = Canvas.ctx;
 export function renderAll() {
   let chekeredFlag = false;
   for (let i = 0; i < Config.size; i++) {
