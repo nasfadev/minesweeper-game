@@ -1,8 +1,10 @@
-*,html,body{
-    margin: 0;
+div.container{
+    display: flex;
+    justify-content: center;
 }
-div.container canvas#main-canvas{
-    height: 100vh;
-    width: 100vh;
+div.container canvas.main-canvas{
+    display: flex;
+    height: 90vh;
+    width: 90vh;
     background-color: black;
 }
