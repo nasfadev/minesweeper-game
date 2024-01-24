@@ -12,4 +12,14 @@ export function init() {
     datas.push(new Data());
     datas[i].isBom = i < Config.bomCount;
   }
+  bomRandomizer();
+}
+function bomRandomizer() {
+  let n = datas.length;
+  for (let i = 0; i < n; i++) {
+    let randomIndex = Math.floor(Math.random() * (n - i) + i);
+    let temp = datas[i].isBom;
+    datas[i].isBom = datas[randomIndex].isBom;
+    datas[randomIndex].isBom = temp;
+  }
 }
