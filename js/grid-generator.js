@@ -1,11 +1,10 @@
-import Config from "./config.js";
+import Config, { Theme } from "./config.js";
 import * as Canvas from "./canvas.js";
 import { datas as gridDatas } from "./grid-data.js";
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 // function for render all grid in the canvas
 export function renderAll() {
-  bomRandomizer();
   let checkeredFlag = false;
   // this iterator for making grid in the canvas by using config.size for looping count
   for (let i = 0; i < Config.size; i++) {
@@ -29,20 +28,36 @@ export function partialRender(event) {
   checkeredFlag = autoCheckeredGrid(checkeredFlag, Config.size, index);
   ctx.beginPath();
   ctx.fillStyle = checkeredFlag ? "#D2D2D2" : "#E1E0E0";
-  ctx.fillStyle = gridDatas[index].isBom ? "black" : ctx.fillStyle;
+  // ctx.fillStyle = gridDatas[index].isBom ? "black" : ctx.fillStyle;
+  if (gridDatas[index].isBom) {
+    const bomIcon = new Image();
+    bomIcon.src = Theme.boomIconUrl;
+    bomIcon.onload = () =>
+      ctx.drawImage(
+        bomIcon,
+        gridWidth * y + gridWidth / 2 - (gridWidth * Theme.boomIconSize) / 2,
+        gridWidth * x + gridWidth / 2 - (gridWidth * Theme.boomIconSize) / 2,
+        gridWidth * Theme.boomIconSize,
+        gridWidth * Theme.boomIconSize
+      );
+  }
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   ctx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
+  if (!gridDatas[index].isBom && gridDatas[index].nearestBomCount > 0) {
+    let fontSize = Theme.defaultFontSize / Config.size;
+    ctx.font = fontSize + "px Arial";
+    ctx.textAlign = "center";
+    ctx.textContent = "center";
+    ctx.fillStyle = "black";
+    ctx.fillText(
+      `${gridDatas[index].nearestBomCount}`,
+      gridWidth * y + gridWidth / 2,
+      gridWidth * x + gridWidth / 2 + fontSize / 2.5
+    );
+  }
+
   gridDatas[index].isTouched = true;
   console.log(gridDatas[index]);
-}
-function bomRandomizer() {
-  let n = gridDatas.length;
-  for (let i = 0; i < n; i++) {
-    let randomIndex = Math.floor(Math.random() * (n - i) + i);
-    let temp = gridDatas[i].isBom;
-    gridDatas[i].isBom = gridDatas[randomIndex].isBom;
-    gridDatas[randomIndex].isBom = temp;
-  }
 }
 // for make automatic checkered style depend on the grid size in config and some parameter
 function autoCheckeredGrid(currentCheckeredFlag, size, index) {
