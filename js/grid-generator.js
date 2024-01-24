@@ -12,7 +12,6 @@ export function renderAll() {
       ctx.fillStyle = checkeredFlag ? "#24A7C3" : "#11D4FF";
       ctx.fillRect(gridWidth * j, gridWidth * i, gridWidth, gridWidth);
       ctx.rect(gridWidth * j, gridWidth * i, gridWidth, gridWidth);
-      checkeredFlag = checkeredFlag ? false : true;
     }
   }
 }
