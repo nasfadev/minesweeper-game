@@ -31,6 +31,19 @@ export function partialRender(event) {
   ctx.fillStyle = gridDatas[index].isBom ? "black" : ctx.fillStyle;
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   ctx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
+  if (!gridDatas[index].isBom && gridDatas[index].nearestBomCount > 0) {
+    let fontSize = 1000 / Config.size;
+    ctx.font = fontSize + "px Arial";
+    ctx.textAlign = "center";
+    ctx.textContent = "center";
+    ctx.fillStyle = "black";
+    ctx.fillText(
+      `${gridDatas[index].nearestBomCount}`,
+      gridWidth * y + gridWidth / 2,
+      gridWidth * x + gridWidth / 2 + fontSize / 2.5
+    );
+  }
+
   gridDatas[index].isTouched = true;
   console.log(gridDatas[index]);
 }
