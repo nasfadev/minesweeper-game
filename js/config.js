@@ -2,5 +2,6 @@
 export default class Config {
   // size of a grid in the canvas
   static size = 10;
-  static bomCount = 10;
+  static bomCount = 40;
+  static defaultFontSize = 1000;
 }

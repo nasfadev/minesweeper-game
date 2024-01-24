@@ -32,7 +32,7 @@ export function partialRender(event) {
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   ctx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   if (!gridDatas[index].isBom && gridDatas[index].nearestBomCount > 0) {
-    let fontSize = 1000 / Config.size;
+    let fontSize = Config.defaultFontSize / Config.size;
     ctx.font = fontSize + "px Arial";
     ctx.textAlign = "center";
     ctx.textContent = "center";
