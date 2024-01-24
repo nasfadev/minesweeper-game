@@ -1,5 +1,6 @@
 import Config from "./config.js";
 import * as Canvas from "./canvas.js";
+import { datas as gridDatas } from "./grid-data.js";
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 // function for render all grid in the canvas
@@ -22,13 +23,15 @@ export function renderAll() {
 export function partialRender(event) {
   let y = Math.floor(event.offsetX / (event.target.offsetHeight / Config.size));
   let x = Math.floor(event.offsetY / (event.target.offsetHeight / Config.size));
-  let index = Config.size * y + x;
+  let index = Config.size * x + y;
   let checkeredFlag;
   checkeredFlag = autoCheckeredGrid(checkeredFlag, Config.size, index);
   ctx.beginPath();
   ctx.fillStyle = checkeredFlag ? "#D2D2D2" : "#E1E0E0";
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   ctx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
+  gridDatas[index] = true;
+  console.log(index + "" + gridDatas[index]);
 }
 // for make automatic checkered style depend on the grid size in config and some parameter
 function autoCheckeredGrid(currentCheckeredFlag, size, index) {
