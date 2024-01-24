@@ -3,6 +3,7 @@ import Config from "./config.js";
 class Data {
   isTouched = false;
   isBom = false;
+  nearestBomCount = 0;
 }
 // array that stored instances of Data class
 export const datas = [];
@@ -13,6 +14,7 @@ export function init() {
     datas[i].isBom = i < Config.bomCount;
   }
   bomRandomizer();
+  checkNearestBom();
 }
 function bomRandomizer() {
   let n = datas.length;
@@ -21,5 +23,46 @@ function bomRandomizer() {
     let temp = datas[i].isBom;
     datas[i].isBom = datas[randomIndex].isBom;
     datas[randomIndex].isBom = temp;
+  }
+}
+function checkNearestBom() {
+  for (let i = 0; i < datas.length; i++) {
+    for (let j = 0; j < 8; j++) {
+      let nearestIndex = getNearestGridIndex(i, j + 1);
+      if (nearestIndex == -9) continue;
+      console.log(nearestIndex);
+      if (datas[nearestIndex].isBom) {
+        datas[i].nearestBomCount++;
+      }
+      console.log(i);
+    }
+  }
+}
+export function getNearestGridIndex(index, dataId) {
+  // 1 | 2 | 3 |
+  // 8 | 0 | 4 |
+  // 7 | 6 | 5 |
+  let canTop = !(index - Config.size < 0);
+  let canBottom = !(index + Config.size >= Config.size * Config.size - 1);
+  let canRight = !(index % Config.size === Config.size - 1);
+  let canLeft = !(index % Config.size === 0);
+  if (dataId == 1 && canTop && canLeft) {
+    return index - Config.size - 1;
+  } else if (dataId == 2 && canTop) {
+    return index - Config.size;
+  } else if (dataId == 3 && canTop && canRight) {
+    return index - Config.size + 1;
+  } else if (dataId == 4 && canRight) {
+    return index + 1;
+  } else if (dataId == 5 && canRight && canBottom) {
+    return index + Config.size + 1;
+  } else if (dataId == 6 && canBottom) {
+    return index + Config.size;
+  } else if (dataId == 7 && canBottom && canLeft) {
+    return index + Config.size - 1;
+  } else if (dataId == 8 && canLeft) {
+    return index - 1;
+  } else {
+    return -9;
   }
 }
