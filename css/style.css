@@ -4,7 +4,6 @@ div.container{
 }
 div.container canvas.main-canvas{
     display: flex;
-    height: 90vh;
-    width: 90vh;
-    background-color: azure;
+    height: 90vmin;
+    width: 90vmin;
 }
