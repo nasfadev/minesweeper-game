@@ -5,6 +5,7 @@ const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 // function for render all grid in the canvas
 export function renderAll() {
+  bomRandomizer();
   let checkeredFlag = false;
   // this iterator for making grid in the canvas by using config.size for looping count
   for (let i = 0; i < Config.size; i++) {
@@ -28,10 +29,20 @@ export function partialRender(event) {
   checkeredFlag = autoCheckeredGrid(checkeredFlag, Config.size, index);
   ctx.beginPath();
   ctx.fillStyle = checkeredFlag ? "#D2D2D2" : "#E1E0E0";
+  ctx.fillStyle = gridDatas[index].isBom ? "black" : ctx.fillStyle;
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   ctx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
-  gridDatas[index] = true;
-  console.log(index + "" + gridDatas[index]);
+  gridDatas[index].isTouched = true;
+  console.log(gridDatas[index]);
+}
+function bomRandomizer() {
+  let n = gridDatas.length;
+  for (let i = 0; i < n; i++) {
+    let randomIndex = Math.floor(Math.random() * (n - i) + i);
+    let temp = gridDatas[i].isBom;
+    gridDatas[i].isBom = gridDatas[randomIndex].isBom;
+    gridDatas[randomIndex].isBom = temp;
+  }
 }
 // for make automatic checkered style depend on the grid size in config and some parameter
 function autoCheckeredGrid(currentCheckeredFlag, size, index) {
