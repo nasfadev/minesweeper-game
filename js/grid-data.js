@@ -30,11 +30,9 @@ function checkNearestBom() {
     for (let j = 0; j < 8; j++) {
       let nearestIndex = getNearestGridIndex(i, j + 1);
       if (nearestIndex == -9) continue;
-      console.log(nearestIndex);
       if (datas[nearestIndex].isBom) {
         datas[i].nearestBomCount++;
       }
-      console.log(i);
     }
   }
 }

@@ -1,4 +1,4 @@
-import Config from "./config.js";
+import Config, { Theme } from "./config.js";
 import * as Canvas from "./canvas.js";
 import { datas as gridDatas } from "./grid-data.js";
 const gridWidth = Canvas.main.width / Config.size;
@@ -28,11 +28,23 @@ export function partialRender(event) {
   checkeredFlag = autoCheckeredGrid(checkeredFlag, Config.size, index);
   ctx.beginPath();
   ctx.fillStyle = checkeredFlag ? "#D2D2D2" : "#E1E0E0";
-  ctx.fillStyle = gridDatas[index].isBom ? "black" : ctx.fillStyle;
+  // ctx.fillStyle = gridDatas[index].isBom ? "black" : ctx.fillStyle;
+  if (gridDatas[index].isBom) {
+    const bomIcon = new Image();
+    bomIcon.src = Theme.boomIconUrl;
+    bomIcon.onload = () =>
+      ctx.drawImage(
+        bomIcon,
+        gridWidth * y + gridWidth / 2 - (gridWidth * Theme.boomIconSize) / 2,
+        gridWidth * x + gridWidth / 2 - (gridWidth * Theme.boomIconSize) / 2,
+        gridWidth * Theme.boomIconSize,
+        gridWidth * Theme.boomIconSize
+      );
+  }
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   ctx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   if (!gridDatas[index].isBom && gridDatas[index].nearestBomCount > 0) {
-    let fontSize = Config.defaultFontSize / Config.size;
+    let fontSize = Theme.defaultFontSize / Config.size;
     ctx.font = fontSize + "px Arial";
     ctx.textAlign = "center";
     ctx.textContent = "center";
