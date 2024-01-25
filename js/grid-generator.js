@@ -12,10 +12,7 @@ export function renderAll() {
     for (let j = 0; j < Config.size; j++) {
       let index = Config.size * i + j;
       checkeredFlag = autoCheckeredGrid(checkeredFlag, Config.size, index);
-      ctx.beginPath();
-      ctx.fillStyle = checkeredFlag ? "#24A7C3" : "#11D4FF";
-      ctx.fillRect(gridWidth * j, gridWidth * i, gridWidth, gridWidth);
-      ctx.rect(gridWidth * j, gridWidth * i, gridWidth, gridWidth);
+      drawGrid(checkeredFlag, true, i, j);
     }
   }
 }
@@ -26,38 +23,64 @@ export function partialRender(event) {
   let index = Config.size * x + y;
   let checkeredFlag;
   checkeredFlag = autoCheckeredGrid(checkeredFlag, Config.size, index);
-  ctx.beginPath();
-  ctx.fillStyle = checkeredFlag ? "#D2D2D2" : "#E1E0E0";
-  // ctx.fillStyle = gridDatas[index].isBom ? "black" : ctx.fillStyle;
-  if (gridDatas[index].isBom) {
-    const bomIcon = new Image();
-    bomIcon.src = Theme.boomIconUrl;
-    bomIcon.onload = () =>
-      ctx.drawImage(
-        bomIcon,
-        gridWidth * y + gridWidth / 2 - (gridWidth * Theme.boomIconSize) / 2,
-        gridWidth * x + gridWidth / 2 - (gridWidth * Theme.boomIconSize) / 2,
-        gridWidth * Theme.boomIconSize,
-        gridWidth * Theme.boomIconSize
+  if (event.button === 2) {
+    if (gridDatas[index].isTouched) {
+      return;
+    }
+    if (gridDatas[index].isFlag) {
+      drawGrid(checkeredFlag, true, x, y);
+      gridDatas[index].isFlag = false;
+      return;
+    }
+    drawImageInGrid("../img/flag-icon.png", Theme.boomIconSize, x, y);
+    gridDatas[index].isFlag = true;
+    return;
+  } else if (event.button === 0) {
+    if (gridDatas[index].isFlag) {
+      return;
+    }
+    drawGrid(checkeredFlag, false, x, y);
+    gridDatas[index].isTouched = true;
+    if (gridDatas[index].isBom) {
+      drawImageInGrid(Theme.boomIconUrl, Theme.boomIconSize, x, y);
+      return;
+    }
+    if (gridDatas[index].nearestBomCount > 0) {
+      let fontSize = Theme.defaultFontSize / Config.size;
+      ctx.font = fontSize + "px Arial";
+      ctx.textAlign = "center";
+      ctx.textContent = "center";
+      ctx.fillStyle = "black";
+      ctx.fillText(
+        `${gridDatas[index].nearestBomCount}`,
+        gridWidth * y + gridWidth / 2,
+        gridWidth * x + gridWidth / 2 + fontSize / 2.5
       );
+    }
+  }
+  console.log(gridDatas[index]);
+}
+function drawGrid(checkeredFlag, isFill, x, y) {
+  ctx.beginPath();
+  if (isFill) {
+    ctx.fillStyle = checkeredFlag ? "#24A7C3" : "#11D4FF";
+  } else {
+    ctx.fillStyle = checkeredFlag ? "#D2D2D2" : "#E1E0E0";
   }
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   ctx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
-  if (!gridDatas[index].isBom && gridDatas[index].nearestBomCount > 0) {
-    let fontSize = Theme.defaultFontSize / Config.size;
-    ctx.font = fontSize + "px Arial";
-    ctx.textAlign = "center";
-    ctx.textContent = "center";
-    ctx.fillStyle = "black";
-    ctx.fillText(
-      `${gridDatas[index].nearestBomCount}`,
-      gridWidth * y + gridWidth / 2,
-      gridWidth * x + gridWidth / 2 + fontSize / 2.5
+}
+function drawImageInGrid(imageUrl, imageSize, x, y) {
+  const image = new Image();
+  image.src = imageUrl;
+  image.onload = () =>
+    ctx.drawImage(
+      image,
+      gridWidth * y + gridWidth / 2 - (gridWidth * imageSize) / 2,
+      gridWidth * x + gridWidth / 2 - (gridWidth * imageSize) / 2,
+      gridWidth * imageSize,
+      gridWidth * imageSize
     );
-  }
-
-  gridDatas[index].isTouched = true;
-  console.log(gridDatas[index]);
 }
 // for make automatic checkered style depend on the grid size in config and some parameter
 function autoCheckeredGrid(currentCheckeredFlag, size, index) {
