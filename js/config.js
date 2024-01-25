@@ -8,4 +8,6 @@ export class Theme {
   static defaultFontSize = 1000;
   static boomIconUrl = "./img/bomb-icon.png";
   static boomIconSize = 0.9;
+  static flagIconUrl = "./img/flag-icon.png";
+  static flagIconSize = 0.9;
 }
