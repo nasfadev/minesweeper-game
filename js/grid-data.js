@@ -4,6 +4,7 @@ class Data {
   isTouched = false;
   isBom = false;
   nearestBomCount = 0;
+  isFlag = false;
 }
 // array that stored instances of Data class
 export const datas = [];
