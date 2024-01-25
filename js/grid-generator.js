@@ -32,7 +32,7 @@ export function partialRender(event) {
       gridDatas[index].isFlag = false;
       return;
     }
-    drawImageInGrid("../img/flag-icon.png", Theme.boomIconSize, x, y);
+    drawImageInGrid(Theme.flagIconUrl, Theme.flagIconSize, x, y);
     gridDatas[index].isFlag = true;
     return;
   } else if (event.button === 0) {
