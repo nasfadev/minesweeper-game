@@ -43,11 +43,37 @@ export function partialRender(event) {
     if (gridDatas[index].nearestBomCount > 0) {
       drawNumber(index, x, y);
     }
-    gridAutoSolver(index);
+    blankGridAutoSolver(index);
+    flagGridAutoSolver(index);
   }
   console.log(gridDatas[index]);
 }
-function gridAutoSolver(index) {
+function flagGridAutoSolver(index) {
+  const nearestBomCount = gridDatas[index].nearestBomCount;
+  let bombCount = 0;
+  for (let i = 0; i < 8; i++) {
+    const nearIndex = getNearestGridIndex(index, i + 1);
+    if (nearIndex < 0) continue;
+    if (gridDatas[nearIndex].isFlag) bombCount++;
+  }
+  if (nearestBomCount !== bombCount) return;
+  for (let i = 0; i < 8; i++) {
+    const nearIndex = getNearestGridIndex(index, i + 1);
+    if (nearIndex < 0) continue;
+    if (gridDatas[nearIndex].isFlag) continue;
+    const checkeredFlag = autoCheckeredGrid(Config.size, nearIndex);
+    const x = Math.floor(nearIndex / Config.size);
+    const y = nearIndex % Config.size;
+    gridDatas[nearIndex].isTouched = true;
+    drawGrid(checkeredFlag, false, x, y);
+    if (gridDatas[nearIndex].isBom) {
+      drawImageInGrid(Theme.boomIconUrl, Theme.boomIconSize, x, y);
+      continue;
+    }
+    drawNumber(nearIndex, x, y);
+  }
+}
+function blankGridAutoSolver(index) {
   const gridBlocksQueue = [];
   if (gridDatas[index].nearestBomCount > 0) return;
   gridBlocksQueue.push(index);
