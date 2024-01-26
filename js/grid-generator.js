@@ -1,17 +1,16 @@
 import Config, { Theme } from "./config.js";
 import * as Canvas from "./canvas.js";
-import { datas as gridDatas } from "./grid-data.js";
+import { datas as gridDatas, getNearestGridIndex } from "./grid-data.js";
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 // function for render all grid in the canvas
 export function renderAll() {
-  let checkeredFlag = false;
   // this iterator for making grid in the canvas by using config.size for looping count
   for (let i = 0; i < Config.size; i++) {
     // this iterator for making grid in the canvas by using config.size for looping count
     for (let j = 0; j < Config.size; j++) {
       let index = Config.size * i + j;
-      checkeredFlag = autoCheckeredGrid(checkeredFlag, Config.size, index);
+      let checkeredFlag = autoCheckeredGrid(Config.size, index);
       drawGrid(checkeredFlag, true, i, j);
     }
   }
@@ -21,12 +20,9 @@ export function partialRender(event) {
   let y = Math.floor(event.offsetX / (event.target.offsetHeight / Config.size));
   let x = Math.floor(event.offsetY / (event.target.offsetHeight / Config.size));
   let index = Config.size * x + y;
-  let checkeredFlag;
-  checkeredFlag = autoCheckeredGrid(checkeredFlag, Config.size, index);
+  let checkeredFlag = autoCheckeredGrid(Config.size, index);
   if (event.button === 2) {
-    if (gridDatas[index].isTouched) {
-      return;
-    }
+    if (gridDatas[index].isTouched) return;
     if (gridDatas[index].isFlag) {
       drawGrid(checkeredFlag, true, x, y);
       gridDatas[index].isFlag = false;
@@ -36,9 +32,8 @@ export function partialRender(event) {
     gridDatas[index].isFlag = true;
     return;
   } else if (event.button === 0) {
-    if (gridDatas[index].isFlag) {
-      return;
-    }
+    if (gridDatas[index].isFlag) return;
+
     drawGrid(checkeredFlag, false, x, y);
     gridDatas[index].isTouched = true;
     if (gridDatas[index].isBom) {
@@ -46,19 +41,55 @@ export function partialRender(event) {
       return;
     }
     if (gridDatas[index].nearestBomCount > 0) {
-      let fontSize = Theme.defaultFontSize / Config.size;
-      ctx.font = fontSize + "px Arial";
-      ctx.textAlign = "center";
-      ctx.textContent = "center";
-      ctx.fillStyle = "black";
-      ctx.fillText(
-        `${gridDatas[index].nearestBomCount}`,
-        gridWidth * y + gridWidth / 2,
-        gridWidth * x + gridWidth / 2 + fontSize / 2.5
-      );
+      drawNumber(index, x, y);
     }
+    gridAutoSolver(index, event);
   }
   console.log(gridDatas[index]);
+}
+function gridAutoSolver(index, event) {
+  console.log("offsetheigt " + event.target.offsetHeight);
+  const gridBlocksQueue = [];
+  console.log(
+    "x" +
+      gridWidth * Math.floor(index / Config.size) +
+      "y" +
+      index * (gridWidth % Config.size)
+  );
+  if (gridDatas[index].nearestBomCount > 0) return;
+  for (let i = 0; i < 8; i++) {
+    const nearIndex = getNearestGridIndex(index, i + 1);
+    console.log("nearIndex : " + nearIndex);
+    if (nearIndex < 0) continue;
+    if (gridDatas[nearIndex].isTouched) continue;
+    const checkeredFlag = autoCheckeredGrid(Config.size, nearIndex);
+    const x = Math.floor(nearIndex / Config.size);
+    const y = nearIndex % Config.size;
+    drawGrid(checkeredFlag, false, x, y);
+    drawNumber(nearIndex, x, y);
+    gridDatas[nearIndex].isTouched = true;
+    if (gridDatas[nearIndex].nearestBomCount > 0) continue;
+    console.log("x" + x + "y" + y);
+
+    gridBlocksQueue.push(nearIndex);
+  }
+  // for (let j = 0; j < gridBlocksQueue.length; j++) {
+  //   gridBlocksQueue.shift();
+  // }
+  console.log(gridBlocksQueue);
+}
+function drawNumber(index, x, y) {
+  if (gridDatas[index].nearestBomCount < 1) return;
+  let fontSize = Theme.defaultFontSize / Config.size;
+  ctx.font = fontSize + "px Arial";
+  ctx.textAlign = "center";
+  ctx.textContent = "center";
+  ctx.fillStyle = "black";
+  ctx.fillText(
+    `${gridDatas[index].nearestBomCount}`,
+    gridWidth * y + gridWidth / 2,
+    gridWidth * x + gridWidth / 2 + fontSize / 2.5
+  );
 }
 function drawGrid(checkeredFlag, isFill, x, y) {
   ctx.beginPath();
@@ -83,19 +114,19 @@ function drawImageInGrid(imageUrl, imageSize, x, y) {
     );
 }
 // for make automatic checkered style depend on the grid size in config and some parameter
-function autoCheckeredGrid(currentCheckeredFlag, size, index) {
+function autoCheckeredGrid(size, index) {
   // check number in size is even or odd
   if (size % 2 == 0) {
     // check index divided by size is even or odd
     if (Math.floor(index / size) % 2 == 0) {
       // if index is even return true
-      return (currentCheckeredFlag = index % 2 == 0);
+      return index % 2 == 0;
     } else {
       // if index is even return false
-      return (currentCheckeredFlag = index % 2 != 0);
+      return index % 2 != 0;
     }
   } else {
     // if index is even return false
-    return (currentCheckeredFlag = index % 2 != 0);
+    return index % 2 != 0;
   }
 }
