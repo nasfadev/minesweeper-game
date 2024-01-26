@@ -71,6 +71,7 @@ function flagGridAutoSolver(index) {
       continue;
     }
     drawNumber(nearIndex, x, y);
+    blankGridAutoSolver(nearIndex);
   }
 }
 function blankGridAutoSolver(index) {
