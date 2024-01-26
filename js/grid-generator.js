@@ -43,40 +43,31 @@ export function partialRender(event) {
     if (gridDatas[index].nearestBomCount > 0) {
       drawNumber(index, x, y);
     }
-    gridAutoSolver(index, event);
+    gridAutoSolver(index);
   }
   console.log(gridDatas[index]);
 }
-function gridAutoSolver(index, event) {
-  console.log("offsetheigt " + event.target.offsetHeight);
+function gridAutoSolver(index) {
   const gridBlocksQueue = [];
-  console.log(
-    "x" +
-      gridWidth * Math.floor(index / Config.size) +
-      "y" +
-      index * (gridWidth % Config.size)
-  );
   if (gridDatas[index].nearestBomCount > 0) return;
-  for (let i = 0; i < 8; i++) {
-    const nearIndex = getNearestGridIndex(index, i + 1);
-    console.log("nearIndex : " + nearIndex);
-    if (nearIndex < 0) continue;
-    if (gridDatas[nearIndex].isTouched) continue;
-    const checkeredFlag = autoCheckeredGrid(Config.size, nearIndex);
-    const x = Math.floor(nearIndex / Config.size);
-    const y = nearIndex % Config.size;
-    drawGrid(checkeredFlag, false, x, y);
-    drawNumber(nearIndex, x, y);
-    gridDatas[nearIndex].isTouched = true;
-    if (gridDatas[nearIndex].nearestBomCount > 0) continue;
-    console.log("x" + x + "y" + y);
-
-    gridBlocksQueue.push(nearIndex);
+  gridBlocksQueue.push(index);
+  while (gridBlocksQueue.length != 0) {
+    for (let i = 0; i < 8; i++) {
+      const nearIndex = getNearestGridIndex(gridBlocksQueue[0], i + 1);
+      if (nearIndex < 0) continue;
+      if (gridDatas[nearIndex].isTouched) continue;
+      if (gridDatas[nearIndex].isFlag) continue;
+      const checkeredFlag = autoCheckeredGrid(Config.size, nearIndex);
+      const x = Math.floor(nearIndex / Config.size);
+      const y = nearIndex % Config.size;
+      drawGrid(checkeredFlag, false, x, y);
+      drawNumber(nearIndex, x, y);
+      gridDatas[nearIndex].isTouched = true;
+      if (gridDatas[nearIndex].nearestBomCount > 0) continue;
+      gridBlocksQueue.push(nearIndex);
+    }
+    gridBlocksQueue.shift();
   }
-  // for (let j = 0; j < gridBlocksQueue.length; j++) {
-  //   gridBlocksQueue.shift();
-  // }
-  console.log(gridBlocksQueue);
 }
 function drawNumber(index, x, y) {
   if (gridDatas[index].nearestBomCount < 1) return;
