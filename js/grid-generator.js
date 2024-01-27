@@ -1,6 +1,10 @@
 import Config, { Theme } from "./config.js";
 import * as Canvas from "./canvas.js";
-import { datas as gridDatas, getNearestGridIndex } from "./grid-data.js";
+import {
+  datas as gridDatas,
+  getNearestGridIndex,
+  bombIndexs,
+} from "./grid-data.js";
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 // function for render all grid in the canvas
@@ -37,7 +41,7 @@ export function partialRender(event) {
     drawGrid(checkeredFlag, false, x, y);
     gridDatas[index].isTouched = true;
     if (gridDatas[index].isBom) {
-      drawImageInGrid(Theme.boomIconUrl, Theme.boomIconSize, x, y);
+      showAllBombs();
       return;
     }
     if (gridDatas[index].nearestBomCount > 0) {
@@ -67,12 +71,23 @@ function flagGridAutoSolver(index) {
     gridDatas[nearIndex].isTouched = true;
     drawGrid(checkeredFlag, false, x, y);
     if (gridDatas[nearIndex].isBom) {
-      drawImageInGrid(Theme.boomIconUrl, Theme.boomIconSize, x, y);
+      showAllBombs();
       continue;
     }
     drawNumber(nearIndex, x, y);
     blankGridAutoSolver(nearIndex);
   }
+}
+function showAllBombs() {
+  for (let i = 0; i < bombIndexs.length; i++) {
+    const index = bombIndexs[i];
+    const checkeredFlag = autoCheckeredGrid(Config.size, index);
+    const x = Math.floor(index / Config.size);
+    const y = index % Config.size;
+    drawGrid(checkeredFlag, false, x, y);
+    drawImageInGrid(Theme.boomIconUrl, Theme.boomIconSize, x, y);
+  }
+  console.log(bombIndexs);
 }
 function blankGridAutoSolver(index) {
   const gridBlocksQueue = [];

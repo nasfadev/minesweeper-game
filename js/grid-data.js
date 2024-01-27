@@ -6,6 +6,7 @@ class Data {
   nearestBomCount = 0;
   isFlag = false;
 }
+export const bombIndexs = [];
 // array that stored instances of Data class
 export const datas = [];
 // init datas array
@@ -15,6 +16,7 @@ export function init() {
     datas[i].isBom = i < Config.bomCount;
   }
   bomRandomizer();
+  bombCounter();
   checkNearestBom();
 }
 function bomRandomizer() {
@@ -24,6 +26,12 @@ function bomRandomizer() {
     let temp = datas[i].isBom;
     datas[i].isBom = datas[randomIndex].isBom;
     datas[randomIndex].isBom = temp;
+  }
+}
+function bombCounter() {
+  for (let i = 0; i < datas.length; i++) {
+    if (!datas[i].isBom) continue;
+    bombIndexs.push(i);
   }
 }
 function checkNearestBom() {
