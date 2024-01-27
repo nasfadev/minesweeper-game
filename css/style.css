@@ -1,9 +1,17 @@
 div.container{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    height: 100vh;
 }
-div.container canvas.main-canvas{
+div.container > div.screen{
     display: flex;
-    height: 90vmin;
-    width: 90vmin;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
 }
+
+/* div.container > div.screen > canvas.main-canvas{
+    height: 100vmin;
+    width: 100vmin;
+} */
