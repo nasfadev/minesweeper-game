@@ -42,7 +42,7 @@ export function getNearestGridIndex(index, dataId) {
   // 8 | 0 | 4 |
   // 7 | 6 | 5 |
   let canTop = !(index - Config.size < 0);
-  let canBottom = !(index + Config.size >= Config.size * Config.size - 1);
+  let canBottom = !(index + Config.size >= Config.size * Config.size);
   let canRight = !(index % Config.size === Config.size - 1);
   let canLeft = !(index % Config.size === 0);
   if (dataId == 1 && canTop && canLeft) {
