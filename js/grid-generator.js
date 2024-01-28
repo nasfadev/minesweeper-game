@@ -7,6 +7,7 @@ import {
 } from "./grid-data.js";
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
+const ptrCtx = Canvas.ptrCtx;
 // function for render all grid in the canvas
 export function renderAll() {
   // this iterator for making grid in the canvas by using config.size for looping count
@@ -18,6 +19,12 @@ export function renderAll() {
       drawGrid(checkeredFlag, true, i, j);
     }
   }
+}
+export function pointerRender(event) {
+  let y = Math.floor(event.offsetX / (event.target.offsetHeight / Config.size));
+  let x = Math.floor(event.offsetY / (event.target.offsetHeight / Config.size));
+  ptrCtx.clearRect(0, 0, 2048, 2048);
+  drawPointer(x, y);
 }
 // for render one part
 export function partialRender(event) {
@@ -123,6 +130,12 @@ function drawNumber(index, x, y) {
     gridWidth * y + gridWidth / 2,
     gridWidth * x + gridWidth / 2 + fontSize / 2.5
   );
+}
+function drawPointer(x, y) {
+  ptrCtx.beginPath();
+  ptrCtx.fillStyle = "rgba(255, 255, 255, 0.5)";
+  ptrCtx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
+  ptrCtx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
 }
 function drawGrid(checkeredFlag, isFill, x, y) {
   ctx.beginPath();

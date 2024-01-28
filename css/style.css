@@ -5,13 +5,11 @@ div.container{
     height: 100vh;
 }
 div.container > div.screen{
+    position: relative;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    margin: auto;
 }
 
-/* div.container > div.screen > canvas.main-canvas{
-    height: 100vmin;
-    width: 100vmin;
-} */
+div.container > div.screen > #pointer-canvas{
+    position:absolute;
+}
