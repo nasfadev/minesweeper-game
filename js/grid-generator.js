@@ -8,6 +8,10 @@ import {
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 const ptrCtx = Canvas.ptrCtx;
+const bombIcon = new Image();
+bombIcon.src = Theme.boomIconUrl;
+const flagIcon = new Image();
+flagIcon.src = Theme.flagIconUrl;
 // function for render all grid in the canvas
 export function renderAll() {
   // this iterator for making grid in the canvas by using config.size for looping count
@@ -39,7 +43,7 @@ export function partialRender(event) {
       gridDatas[index].isFlag = false;
       return;
     }
-    drawImageInGrid(Theme.flagIconUrl, Theme.flagIconSize, x, y);
+    drawImageInGrid(flagIcon, Theme.flagIconSize, x, y);
     gridDatas[index].isFlag = true;
     return;
   } else if (event.button === 0) {
@@ -92,7 +96,7 @@ function showAllBombs() {
     const x = Math.floor(index / Config.size);
     const y = index % Config.size;
     drawGrid(checkeredFlag, false, x, y);
-    drawImageInGrid(Theme.boomIconUrl, Theme.boomIconSize, x, y);
+    drawImageInGrid(bombIcon, Theme.boomIconSize, x, y);
   }
   console.log(bombIndexs);
 }
@@ -147,17 +151,14 @@ function drawGrid(checkeredFlag, isFill, x, y) {
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
   ctx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
 }
-function drawImageInGrid(imageUrl, imageSize, x, y) {
-  const image = new Image();
-  image.src = imageUrl;
-  image.onload = () =>
-    ctx.drawImage(
-      image,
-      gridWidth * y + gridWidth / 2 - (gridWidth * imageSize) / 2,
-      gridWidth * x + gridWidth / 2 - (gridWidth * imageSize) / 2,
-      gridWidth * imageSize,
-      gridWidth * imageSize
-    );
+function drawImageInGrid(image, imageSize, x, y) {
+  ctx.drawImage(
+    image,
+    gridWidth * y + gridWidth / 2 - (gridWidth * imageSize) / 2,
+    gridWidth * x + gridWidth / 2 - (gridWidth * imageSize) / 2,
+    gridWidth * imageSize,
+    gridWidth * imageSize
+  );
 }
 // for make automatic checkered style depend on the grid size in config and some parameter
 function autoCheckeredGrid(size, index) {
