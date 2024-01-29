@@ -13,3 +13,30 @@ div.container > div.screen > canvas{
     height: 100%;
     width: 100%;
 }
+div.container > div.screen > div.game-over{
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+div.container > div.screen > div.game-over > span.play-again{
+    color: white;
+    border: .2rem solid white;
+    transition: .3s;
+}
+div.container > div.screen > div.game-over > span.play-again:hover{
+    color: black;
+    background-color: white;
+}
+div.container > div.screen > div.game-over > span.button{
+    cursor: pointer;
+    text-align: center;
+    border-radius: .9rem;
+    padding: 1rem;
+    font-size: 2rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

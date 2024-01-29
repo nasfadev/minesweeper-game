@@ -118,6 +118,7 @@ function showAllBombs() {
     drawGrid(checkeredFlag, false, x, y);
     drawImageInGrid(bombIcon, Theme.boomIconSize, x, y);
   }
+  Canvas.gameOverScreen.style.display = "flex";
   console.log(bombIndexs);
 }
 function blankGridAutoSolver(index) {

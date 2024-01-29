@@ -6,11 +6,13 @@ class Data {
   nearestBomCount = 0;
   isFlag = false;
 }
-export const bombIndexs = [];
+export let bombIndexs = [];
 // array that stored instances of Data class
-export const datas = [];
+export let datas = [];
 // init datas array
 export function init() {
+  datas = [];
+  bombIndexs = [];
   for (let i = 0; i < Config.size * Config.size; i++) {
     datas.push(new Data());
     datas[i].isBom = i < Config.bomCount;
