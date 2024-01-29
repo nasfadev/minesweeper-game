@@ -55,17 +55,20 @@ div.container > div.screen >div.footer{
 div.container > div.screen >div.footer> a{
     text-decoration: none;
     color: white    ;
+    display: flex;
+    align-items: center;
 }
-div.container > div.screen >div.footer>span{
+div.container > div.screen >div.footer> a > span{
     display: flex;
     align-items: center;
     padding-right: .3rem;
 }
-div.container > div.screen >div.footer> span >img{
+div.container > div.screen >div.footer> a >span >img{
     width: 1.2rem;
     height: 1.2rem;
 }
 div.container > div.screen >div.content{
+    border-radius: 2%;
     box-shadow: rgba(100, 100, 111, 0.9) 0px 7px 29px 0px;
     position: relative;
     height: 80%;
@@ -110,8 +113,15 @@ div.container > div.screen >div.content> div.game-over > span.button{
         height: 90%;
         width: 90%;
     }
-    div.container > div.screen >div.footer,
     div.container > div.screen >div.menu{
         height: 5%;
+        position: absolute;
+        top: -5%;
+    }
+    div.container > div.screen >div.footer
+    {
+        height: 5%;
+        position: absolute;
+        bottom: -5%;
     }
 }
