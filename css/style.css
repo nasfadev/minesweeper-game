@@ -1,15 +1,15 @@
 div.container{
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    align-items: center;
     height: 100vh;
 }
 div.container > div.screen{
     position: relative;
-    display: flex;
-    justify-content: center;
 }
 
-div.container > div.screen > #pointer-canvas{
+div.container > div.screen > canvas{
     position:absolute;
+    height: 100%;
+    width: 100%;
 }

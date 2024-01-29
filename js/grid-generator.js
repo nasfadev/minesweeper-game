@@ -25,9 +25,29 @@ export function renderAll() {
   }
 }
 export function pointerRender(event) {
-  let y = Math.floor(event.offsetX / (event.target.offsetHeight / Config.size));
-  let x = Math.floor(event.offsetY / (event.target.offsetHeight / Config.size));
+  const y = Math.floor(
+    event.offsetX / (event.target.offsetHeight / Config.size)
+  );
+  const x = Math.floor(
+    event.offsetY / (event.target.offsetHeight / Config.size)
+  );
+  const index = Config.size * x + y;
   ptrCtx.clearRect(0, 0, 2048, 2048);
+  if (gridDatas[index].nearestBomCount < 1 && gridDatas[index].isTouched)
+    return;
+  if (gridDatas[index].nearestBomCount > 0 && gridDatas[index].isTouched) {
+    let nearFlagCount = 0;
+    let neverTouchedCount = 0;
+    for (let i = 0; i < 8; i++) {
+      const nearIndex = getNearestGridIndex(index, i + 1);
+      if (nearIndex < 0) continue;
+
+      if (gridDatas[nearIndex].isFlag) nearFlagCount++;
+      if (!gridDatas[nearIndex].isTouched) neverTouchedCount++;
+    }
+    if (nearFlagCount !== gridDatas[index].nearestBomCount) return;
+    if (neverTouchedCount == nearFlagCount) return;
+  }
   drawPointer(x, y);
 }
 // for render one part

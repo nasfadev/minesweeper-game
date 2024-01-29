@@ -1,15 +1,11 @@
-import { main as canvas, pointer } from "./canvas.js";
-const size = minSize();
+import { screen } from "./canvas.js";
 export default function init() {
   responsiveCanvas();
 }
 function responsiveCanvas() {
   console.log("screen" + screen.width + "view" + visualViewport.width);
-  canvas.style.width = size + "px";
-  canvas.style.height = size + "px";
-  pointer.style.width = size + "px";
-  pointer.style.height = size + "px";
-  console.log(canvas.style.width);
+  screen.style.width = minSize() + "px";
+  screen.style.height = minSize() + "px";
 }
 function minSize() {
   return visualViewport.height > visualViewport.width
