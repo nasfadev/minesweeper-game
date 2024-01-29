@@ -1,3 +1,7 @@
+:root{
+    font-size: 100%;
+    background-color: #0f768d;
+}
 div.container{
     display: flex;
     justify-content: center;
@@ -6,15 +10,42 @@ div.container{
 }
 div.container > div.screen{
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-div.container > div.screen > canvas{
+div.container > div.screen >div.content >canvas{
     position:absolute;
+    border-radius: 2%;
     height: 100%;
     width: 100%;
 }
-div.container > div.screen > div.game-over{
+div.container > div.screen >div.menu{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+div.container > div.screen >div.menu>span{
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 1.5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+div.container > div.screen >div.content{
+    box-shadow: rgba(100, 100, 111, 0.9) 0px 7px 29px 0px;
+    position: relative;
+    height: 90%;
+    width: 90%;
+}
+div.container > div.screen > div.content > div.game-over{
     position:absolute;
+    border-radius: 2%;
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, .5);
@@ -23,16 +54,16 @@ div.container > div.screen > div.game-over{
     align-items: center;
     z-index: 999;
 }
-div.container > div.screen > div.game-over > span.play-again{
+div.container > div.screen >div.content> div.game-over > span.play-again{
     color: white;
     border: .2rem solid white;
     transition: .3s;
 }
-div.container > div.screen > div.game-over > span.play-again:hover{
+div.container > div.screen >div.content> div.game-over > span.play-again:hover{
     color: black;
     background-color: white;
 }
-div.container > div.screen > div.game-over > span.button{
+div.container > div.screen >div.content> div.game-over > span.button{
     cursor: pointer;
     text-align: center;
     border-radius: .9rem;

@@ -12,13 +12,23 @@
 <body>
     <div class="container">
         <div class="screen">
-            <div class="game-over">
-                <span id="play-again" class="play-again button" >
-                    Play Again
+            <div class="menu">
+                <span class="flags">
+                    <img src="img/flag-icon.png" width="20px" height="20px" alt="" srcset=""> 40
+                </span>
+                <span class="timer">
+                    <img src="img/timer-icon.png" width="20px" height="20px" alt="" srcset=""> 999
                 </span>
             </div>
-            <canvas id="main-canvas" class="main-canvas" width="2048" height="2048"></canvas>
-            <canvas id="pointer-canvas" class="pointer-canvas" width="2048" height="2048"></canvas>
+            <div class="content">
+                <div class="game-over">
+                    <span id="play-again" class="play-again button" >
+                        Play Again
+                    </span>
+                </div>
+                <canvas id="main-canvas" class="main-canvas" width="2048" height="2048"></canvas>
+                <canvas id="pointer-canvas" class="pointer-canvas" width="2048" height="2048"></canvas>
+            </div>
         </div>
     </div>
     <script type="module" src="/main.js"></script>
