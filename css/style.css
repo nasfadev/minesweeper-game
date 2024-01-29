@@ -34,6 +34,7 @@ div.container > div.screen >div.menu{
 }
 div.container > div.screen >div.menu>span{
     padding-right: .3rem;
+    padding-left: .3rem;
     display: flex;
     align-items: center;
 }
@@ -51,6 +52,10 @@ div.container > div.screen >div.footer{
     font-size: 1.2rem;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+div.container > div.screen >div.footer> a{
+    text-decoration: none;
+    color: white    ;
+}
 div.container > div.screen >div.footer>span{
     display: flex;
     align-items: center;
@@ -66,6 +71,11 @@ div.container > div.screen >div.content{
     height: 80%;
     width: 80%;
 }
+div.container > div.screen > div.content > div.game-over > p{
+    color: white;
+    font-size: 1.5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 div.container > div.screen > div.content > div.game-over{
     position:absolute;
     border-radius: 2%;
@@ -73,6 +83,7 @@ div.container > div.screen > div.content > div.game-over{
     width: 100%;
     background-color: rgba(0, 0, 0, .5);
     display: none;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 999;
