@@ -1,9 +1,15 @@
 import { pointer, gameOverScreen } from "./canvas.js";
 import { partialRender, pointerRender } from "./grid-generator.js";
 import { run as runUI } from "./ui-handler.js";
+import initStyle from "./style.js";
 // init event
 export function init() {
   // register event listener for prevent context menu
+  addEventListener("resize", (e) => {
+    initStyle();
+    e.stopPropagation();
+    e.preventDefault();
+  });
   pointer.addEventListener("contextmenu", (e) => {
     e.stopPropagation();
     e.preventDefault();
