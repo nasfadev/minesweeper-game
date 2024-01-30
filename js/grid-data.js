@@ -4,16 +4,27 @@ class Data {
   isTouched = false;
   isBom = false;
   nearestBomCount = 0;
+  isFlag = false;
 }
+export let bombIndexs = [];
 // array that stored instances of Data class
-export const datas = [];
+export let datas = [];
 // init datas array
+export class Status {
+  static gridCount = 0;
+  static flagCount = 0;
+}
 export function init() {
+  Status.gridCount = Config.size * Config.size;
+  Status.flagCount = Config.bomCount;
+  datas = [];
+  bombIndexs = [];
   for (let i = 0; i < Config.size * Config.size; i++) {
     datas.push(new Data());
     datas[i].isBom = i < Config.bomCount;
   }
   bomRandomizer();
+  bombCounter();
   checkNearestBom();
 }
 function bomRandomizer() {
@@ -23,6 +34,12 @@ function bomRandomizer() {
     let temp = datas[i].isBom;
     datas[i].isBom = datas[randomIndex].isBom;
     datas[randomIndex].isBom = temp;
+  }
+}
+function bombCounter() {
+  for (let i = 0; i < datas.length; i++) {
+    if (!datas[i].isBom) continue;
+    bombIndexs.push(i);
   }
 }
 function checkNearestBom() {
@@ -41,7 +58,7 @@ export function getNearestGridIndex(index, dataId) {
   // 8 | 0 | 4 |
   // 7 | 6 | 5 |
   let canTop = !(index - Config.size < 0);
-  let canBottom = !(index + Config.size >= Config.size * Config.size - 1);
+  let canBottom = !(index + Config.size >= Config.size * Config.size);
   let canRight = !(index % Config.size === Config.size - 1);
   let canLeft = !(index % Config.size === 0);
   if (dataId == 1 && canTop && canLeft) {

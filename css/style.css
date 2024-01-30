@@ -1,9 +1,130 @@
+:root{
+    font-size: 100%;
+    background-color: #0f768d;
+}
 div.container{
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
-div.container canvas.main-canvas{
+div.container > div.screen{
+    position: relative;
     display: flex;
-    height: 90vmin;
-    width: 90vmin;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+div.container > div.screen >div.content >canvas{
+    position:absolute;
+    border-radius: 2%;
+    height: 100%;
+    width: 100%;
+}
+div.container > div.screen >div.menu{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+div.container > div.screen >div.menu>span{
+    padding-right: .3rem;
+    padding-left: .3rem;
+    display: flex;
+    align-items: center;
+}
+div.container > div.screen >div.menu> span >img{
+    width: 1.2rem;
+    height: 1.2rem;
+}
+div.container > div.screen >div.footer{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+div.container > div.screen >div.footer> a{
+    text-decoration: none;
+    color: white    ;
+    display: flex;
+    align-items: center;
+}
+div.container > div.screen >div.footer> a > span{
+    display: flex;
+    align-items: center;
+    padding-right: .3rem;
+}
+div.container > div.screen >div.footer> a >span >img{
+    width: 1.2rem;
+    height: 1.2rem;
+}
+div.container > div.screen >div.content{
+    border-radius: 2%;
+    box-shadow: rgba(100, 100, 111, 0.9) 0px 7px 29px 0px;
+    position: relative;
+    height: 80%;
+    width: 80%;
+}
+div.container > div.screen > div.content > div.game-over > p{
+    color: white;
+    font-size: 1.5rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+div.container > div.screen > div.content > div.game-over{
+    position:absolute;
+    border-radius: 2%;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+div.container > div.screen >div.content> div.game-over > span.play-again{
+    color: white;
+    border: .2rem solid white;
+    transition: .3s;
+}
+div.container > div.screen >div.content> div.game-over > span.play-again:hover{
+    color: black;
+    background-color: white;
+}
+div.container > div.screen >div.content> div.game-over > span.button{
+    cursor: pointer;
+    text-align: center;
+    border-radius: .9rem;
+    padding: 1rem;
+    font-size: 2rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+@media only screen and (max-width: 600px) {
+    div.container > div.screen >div.content{
+        height: 90%;
+        width: 90%;
+    }
+    div.container > div.screen >div.menu{
+        height: 5%;
+        position: absolute;
+        top: -5%;
+    }
+    div.container > div.screen >div.footer
+    {
+        height: 5%;
+        position: absolute;
+        bottom: -5%;
+    }
+    div.container > div.screen >div.content> div.game-over > span.play-again{
+        transition: none;
+    }
 }

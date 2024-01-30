@@ -11,7 +11,41 @@
 
 <body>
     <div class="container">
-        <canvas id="main-canvas" class="main-canvas" width="2048" height="2048"></canvas>
+        <div class="screen">
+            <div class="menu">
+                <span class="flags">
+                    <img src="img/flag-icon.png" width="20px" height="20px" alt="" srcset=""> 
+                    <p>40</p>
+                </span>
+                
+                <span class="timer">
+                    <img src="img/timer-icon.png" width="20px" height="20px" alt="" srcset="">
+                    <p>999</p>
+                </span>
+                
+            </div>
+            <div class="content">
+                <div class="game-over">
+                    <p>
+                        You die.
+                    </p>
+                    <span id="play-again" class="play-again button" >
+                        Play Again
+                    </span>
+                </div>
+                <canvas id="main-canvas" class="main-canvas" width="2048" height="2048"></canvas>
+                <canvas id="stroke-canvas" class="stroke-canvas" width="2048" height="2048"></canvas>
+                <canvas id="pointer-canvas" class="pointer-canvas" width="2048" height="2048"></canvas>
+            </div>
+            <div class="footer">
+                <a href="https://github.com/nasrulcodes" target="_blank" rel="noopener noreferrer">
+                    <span class="flags">
+                        <img src="img/github-icon.png" width="20px" height="20px" alt="" srcset=""> 
+                    </span>
+                    nasrulcode
+                </a>
+            </div>
+        </div>
     </div>
     <script type="module" src="/main.js"></script>
 </body>
