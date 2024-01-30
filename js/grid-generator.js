@@ -8,12 +8,14 @@ import {
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 const ptrCtx = Canvas.ptrCtx;
+const strCtx = Canvas.strCtx;
 const bombIcon = new Image();
 bombIcon.src = Theme.boomIconUrl;
 const flagIcon = new Image();
 flagIcon.src = Theme.flagIconUrl;
 // function for render all grid in the canvas
 export function renderAll() {
+  lineDrawer();
   // this iterator for making grid in the canvas by using config.size for looping count
   for (let i = 0; i < Config.size; i++) {
     // this iterator for making grid in the canvas by using config.size for looping count
@@ -80,8 +82,62 @@ export function partialRender(event) {
     }
     blankGridAutoSolver(index);
     flagGridAutoSolver(index);
+    lineDrawer();
   }
   console.log(gridDatas[index]);
+}
+function lineDrawer() {
+  strCtx.clearRect(0, 0, 2048, 2048);
+  for (let i = 0; i < gridDatas.length; i++) {
+    const data = gridDatas[i];
+    if (!data.isTouched) continue;
+    if (data.nearestBomCount < 1) {
+      if (!data.isBom) {
+        continue;
+      }
+    }
+    const top = getNearestGridIndex(i, 2);
+    const bottom = getNearestGridIndex(i, 6);
+    const left = getNearestGridIndex(i, 8);
+    const right = getNearestGridIndex(i, 4);
+    const x = Math.floor(i / Config.size);
+    const y = i % Config.size;
+    strCtx.lineWidth = 15;
+    const lineOffset = 15 / 2;
+    strCtx.strokeStyle = "yellow";
+    if (top != -9 && !gridDatas[top].isTouched) {
+      const corX = gridWidth * y;
+      const corY = gridWidth * x;
+      strCtx.beginPath();
+      strCtx.moveTo(corX - lineOffset, corY);
+      strCtx.lineTo(corX + gridWidth + lineOffset, corY);
+      strCtx.stroke();
+    }
+    if (bottom != -9 && !gridDatas[bottom].isTouched) {
+      const corX = gridWidth * y;
+      const corY = gridWidth * x;
+      strCtx.beginPath();
+      strCtx.moveTo(corX - lineOffset, corY + gridWidth);
+      strCtx.lineTo(corX + gridWidth + lineOffset, corY + gridWidth);
+      strCtx.stroke();
+    }
+    if (left != -9 && !gridDatas[left].isTouched) {
+      const corX = gridWidth * y;
+      const corY = gridWidth * x;
+      strCtx.beginPath();
+      strCtx.moveTo(corX, corY);
+      strCtx.lineTo(corX, corY + gridWidth);
+      strCtx.stroke();
+    }
+    if (right != -9 && !gridDatas[right].isTouched) {
+      const corX = gridWidth * y;
+      const corY = gridWidth * x;
+      strCtx.beginPath();
+      strCtx.moveTo(corX + gridWidth, corY);
+      strCtx.lineTo(corX + gridWidth, corY + gridWidth);
+      strCtx.stroke();
+    }
+  }
 }
 function flagGridAutoSolver(index) {
   const nearestBomCount = gridDatas[index].nearestBomCount;
@@ -115,9 +171,11 @@ function showAllBombs() {
     const checkeredFlag = autoCheckeredGrid(Config.size, index);
     const x = Math.floor(index / Config.size);
     const y = index % Config.size;
+    gridDatas[index].isTouched = true;
     drawGrid(checkeredFlag, false, x, y);
     drawImageInGrid(bombIcon, Theme.boomIconSize, x, y);
   }
+  lineDrawer();
   Canvas.gameOverScreen.style.display = "flex";
   console.log(bombIndexs);
 }
