@@ -124,4 +124,7 @@ div.container > div.screen >div.content> div.game-over > span.button{
         position: absolute;
         bottom: -5%;
     }
+    div.container > div.screen >div.content> div.game-over > span.play-again{
+        transition: none;
+    }
 }

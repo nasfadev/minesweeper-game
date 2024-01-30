@@ -4,7 +4,9 @@ import {
   datas as gridDatas,
   getNearestGridIndex,
   bombIndexs,
+  Status,
 } from "./grid-data.js";
+import { win, lose, updateFlagMenu } from "./ui-handler.js";
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 const ptrCtx = Canvas.ptrCtx;
@@ -15,6 +17,7 @@ const flagIcon = new Image();
 flagIcon.src = Theme.flagIconUrl;
 // function for render all grid in the canvas
 export function renderAll() {
+  updateFlagMenu();
   lineDrawer();
   // this iterator for making grid in the canvas by using config.size for looping count
   for (let i = 0; i < Config.size; i++) {
@@ -63,16 +66,20 @@ export function partialRender(event) {
     if (gridDatas[index].isFlag) {
       drawGrid(checkeredFlag, true, x, y);
       gridDatas[index].isFlag = false;
+      Status.flagCount++;
+      updateFlagMenu();
       return;
     }
     drawImageInGrid(flagIcon, Theme.flagIconSize, x, y);
     gridDatas[index].isFlag = true;
+    Status.flagCount--;
+    updateFlagMenu();
     return;
   } else if (event.button === 0) {
     if (gridDatas[index].isFlag) return;
 
     drawGrid(checkeredFlag, false, x, y);
-    gridDatas[index].isTouched = true;
+
     if (gridDatas[index].isBom) {
       showAllBombs();
       return;
@@ -155,7 +162,6 @@ function flagGridAutoSolver(index) {
     const checkeredFlag = autoCheckeredGrid(Config.size, nearIndex);
     const x = Math.floor(nearIndex / Config.size);
     const y = nearIndex % Config.size;
-    gridDatas[nearIndex].isTouched = true;
     drawGrid(checkeredFlag, false, x, y);
     if (gridDatas[nearIndex].isBom) {
       showAllBombs();
@@ -171,14 +177,14 @@ function showAllBombs() {
     const checkeredFlag = autoCheckeredGrid(Config.size, index);
     const x = Math.floor(index / Config.size);
     const y = index % Config.size;
-    gridDatas[index].isTouched = true;
     drawGrid(checkeredFlag, false, x, y);
     drawImageInGrid(bombIcon, Theme.boomIconSize, x, y);
   }
+  lose();
   lineDrawer();
-  Canvas.gameOverScreen.style.display = "flex";
   console.log(bombIndexs);
 }
+
 function blankGridAutoSolver(index) {
   const gridBlocksQueue = [];
   if (gridDatas[index].nearestBomCount > 0) return;
@@ -194,7 +200,6 @@ function blankGridAutoSolver(index) {
       const y = nearIndex % Config.size;
       drawGrid(checkeredFlag, false, x, y);
       drawNumber(nearIndex, x, y);
-      gridDatas[nearIndex].isTouched = true;
       if (gridDatas[nearIndex].nearestBomCount > 0) continue;
       gridBlocksQueue.push(nearIndex);
     }
@@ -221,10 +226,18 @@ function drawPointer(x, y) {
   ptrCtx.rect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);
 }
 function drawGrid(checkeredFlag, isFill, x, y) {
+  const index = Config.size * x + y;
   ctx.beginPath();
   if (isFill) {
     ctx.fillStyle = checkeredFlag ? "#24A7C3" : "#11D4FF";
   } else {
+    if (!gridDatas[index].isTouched) {
+      gridDatas[index].isTouched = true;
+      Status.gridCount--;
+    }
+    if (Status.gridCount == Config.bomCount) {
+      win();
+    }
     ctx.fillStyle = checkeredFlag ? "#D2D2D2" : "#E1E0E0";
   }
   ctx.fillRect(gridWidth * y, gridWidth * x, gridWidth, gridWidth);

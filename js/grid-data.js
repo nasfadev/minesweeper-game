@@ -10,7 +10,13 @@ export let bombIndexs = [];
 // array that stored instances of Data class
 export let datas = [];
 // init datas array
+export class Status {
+  static gridCount = 0;
+  static flagCount = 0;
+}
 export function init() {
+  Status.gridCount = Config.size * Config.size;
+  Status.flagCount = Config.bomCount;
   datas = [];
   bombIndexs = [];
   for (let i = 0; i < Config.size * Config.size; i++) {
