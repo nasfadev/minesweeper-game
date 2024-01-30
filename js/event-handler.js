@@ -6,6 +6,7 @@ import initStyle from "./style.js";
 export function init() {
   // register event listener for prevent context menu
   addEventListener("resize", (e) => {
+    if (screen.width < screen.height) return;
     initStyle();
     e.stopPropagation();
     e.preventDefault();
