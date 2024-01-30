@@ -13,10 +13,14 @@ export let datas = [];
 export class Status {
   static gridCount = 0;
   static flagCount = 0;
+  static time = 0;
+  static isTimer = false;
 }
 export function init() {
   Status.gridCount = Config.size * Config.size;
   Status.flagCount = Config.bomCount;
+  Status.time = 0;
+
   datas = [];
   bombIndexs = [];
   for (let i = 0; i < Config.size * Config.size; i++) {

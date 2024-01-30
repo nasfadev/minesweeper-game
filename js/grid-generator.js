@@ -6,11 +6,13 @@ import {
   bombIndexs,
   Status,
 } from "./grid-data.js";
-import { win, lose, updateFlagMenu } from "./ui-handler.js";
+import { win, lose, updateFlagMenu, startTimer } from "./ui-handler.js";
 const gridWidth = Canvas.main.width / Config.size;
 const ctx = Canvas.ctx;
 const ptrCtx = Canvas.ptrCtx;
 const strCtx = Canvas.strCtx;
+const digAudio = new Audio("./aud/dig.ogg");
+const flagAudio = new Audio("./aud/flag.ogg");
 const bombIcon = new Image();
 bombIcon.src = Theme.boomIconUrl;
 const flagIcon = new Image();
@@ -57,12 +59,18 @@ export function pointerRender(event) {
 }
 // for render one part
 export function partialRender(event) {
+  if (!Status.isTimer) {
+    startTimer();
+    Status.isTimer = true;
+  }
   let y = Math.floor(event.offsetX / (event.target.offsetHeight / Config.size));
   let x = Math.floor(event.offsetY / (event.target.offsetHeight / Config.size));
   let index = Config.size * x + y;
   let checkeredFlag = autoCheckeredGrid(Config.size, index);
   if (event.button === 2) {
     if (gridDatas[index].isTouched) return;
+    digAudio.currentTime = 0;
+    flagAudio.play();
     if (gridDatas[index].isFlag) {
       drawGrid(checkeredFlag, true, x, y);
       gridDatas[index].isFlag = false;
@@ -77,6 +85,8 @@ export function partialRender(event) {
     return;
   } else if (event.button === 0) {
     if (gridDatas[index].isFlag) return;
+    digAudio.currentTime = 0;
+    digAudio.play();
 
     drawGrid(checkeredFlag, false, x, y);
 
