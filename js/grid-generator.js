@@ -58,7 +58,7 @@ export function pointerRender(event) {
   drawPointer(x, y);
 }
 // for render one part
-export function partialRender(event) {
+export function partialRender(event, isHold = false) {
   if (!Status.isTimer) {
     startTimer();
     Status.isTimer = true;
@@ -67,7 +67,7 @@ export function partialRender(event) {
   let x = Math.floor(event.offsetY / (event.target.offsetHeight / Config.size));
   let index = Config.size * x + y;
   let checkeredFlag = autoCheckeredGrid(Config.size, index);
-  if (event.button === 2) {
+  if (event.button === 2 || isHold) {
     if (gridDatas[index].isTouched) return;
     digAudio.currentTime = 0;
     flagAudio.play();
@@ -87,7 +87,6 @@ export function partialRender(event) {
     if (gridDatas[index].isFlag) return;
     digAudio.currentTime = 0;
     digAudio.play();
-
     drawGrid(checkeredFlag, false, x, y);
 
     if (gridDatas[index].isBom) {
