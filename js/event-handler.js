@@ -4,6 +4,7 @@ import { run as runUI } from "./ui-handler.js";
 import initStyle from "./style.js";
 // init event
 export function init() {
+  console.log(window.navigator.userAgentData);
   // register event listener for prevent context menu
   addEventListener("resize", (e) => {
     if (screen.width < screen.height) return;
@@ -22,24 +23,45 @@ export function init() {
     e.stopPropagation();
     e.preventDefault();
   });
-  // register event listener for canvas element
+  if (!navigator.userAgentData.mobile) {
+    // register event listener for canvas element
+    pointer.addEventListener("mousedown", (e) => {
+      // render just one part of the grid
+      e.stopPropagation();
+      e.preventDefault();
+      console.log(e);
+
+      partialRender(e, false, false);
+    });
+    // register event listener for canvas element
+    pointer.addEventListener("mousemove", (e) => {
+      clearTimeout(holding);
+      // render just one part of the grid
+      e.stopPropagation();
+      e.preventDefault();
+      console.log(e);
+      if (isDown) isCancel = true;
+      pointerRender(e, false, true);
+    });
+    return;
+  }
   let holding = null;
   let isCancel = false;
   let isDown = false;
-  pointer.addEventListener("mousedown", (e) => {
+  pointer.addEventListener("touchstart", (e) => {
     // render just one part of the grid
     e.stopPropagation();
     e.preventDefault();
     console.log(e);
     isDown = true;
     holding = setTimeout(() => {
-      partialRender(e, true);
+      partialRender(e, true, true);
       isCancel = true;
     }, 300);
   });
   // register event listener for canvas element
   // if (isCancel) return;
-  pointer.addEventListener("mouseup", (e) => {
+  pointer.addEventListener("touchend", (e) => {
     // render just one part of the grid
     clearTimeout(holding);
     e.stopPropagation();
@@ -50,16 +72,15 @@ export function init() {
       isCancel = false;
       return;
     }
-    partialRender(e);
+    partialRender(e, false, true);
   });
-  // register event listener for canvas element
-  pointer.addEventListener("mousemove", (e) => {
+  pointer.addEventListener("touchmove", (e) => {
     clearTimeout(holding);
     // render just one part of the grid
     e.stopPropagation();
     e.preventDefault();
     console.log(e);
     if (isDown) isCancel = true;
-    pointerRender(e);
+    pointerRender(e, false, true);
   });
 }

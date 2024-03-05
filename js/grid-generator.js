@@ -32,6 +32,15 @@ export function renderAll() {
   }
 }
 export function pointerRender(event) {
+  if (navigator.userAgentData.mobile) {
+    const top = Canvas.main.getBoundingClientRect().top;
+    const left = Canvas.main.getBoundingClientRect().left;
+    // event.target = event.touche;
+    event.offsetX = event.changedTouches[0].clientX - left;
+    event.offsetY = event.changedTouches[0].clientY - top;
+    console.log("offset x/y" + event.offsetX + "x|" + event.offsetY + "y");
+    console.log(event.target.offsetHeight);
+  }
   const y = Math.floor(
     event.offsetX / (event.target.offsetHeight / Config.size)
   );
@@ -58,7 +67,18 @@ export function pointerRender(event) {
   drawPointer(x, y);
 }
 // for render one part
-export function partialRender(event, isHold = false) {
+export function partialRender(event, isHold = false, isMobile = false) {
+  console.log("bound " + Canvas.main.getBoundingClientRect().top);
+  console.log("bound " + Canvas.main.getBoundingClientRect().left);
+  if (isMobile) {
+    const top = Canvas.main.getBoundingClientRect().top;
+    const left = Canvas.main.getBoundingClientRect().left;
+    // event.target = event.touche;
+    event.offsetX = event.changedTouches[0].clientX - left;
+    event.offsetY = event.changedTouches[0].clientY - top;
+    console.log("offset x/y" + event.offsetX + "x|" + event.offsetY + "y");
+    console.log(event.target.offsetHeight);
+  }
   if (!Status.isTimer) {
     startTimer();
     Status.isTimer = true;
@@ -83,7 +103,7 @@ export function partialRender(event, isHold = false) {
     Status.flagCount--;
     updateFlagMenu();
     return;
-  } else if (event.button === 0) {
+  } else if (event.button === 0 || navigator.userAgentData.mobile) {
     if (gridDatas[index].isFlag) return;
     digAudio.currentTime = 0;
     digAudio.play();
