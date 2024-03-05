@@ -138,8 +138,9 @@ function lineDrawer() {
     const right = getNearestGridIndex(i, 4);
     const x = Math.floor(i / Config.size);
     const y = i % Config.size;
-    strCtx.lineWidth = 15;
-    const lineOffset = 15 / 2;
+    const defaultLineWidth = 200 / Config.size;
+    strCtx.lineWidth = defaultLineWidth;
+    const lineOffset = defaultLineWidth / 2;
     strCtx.strokeStyle = "yellow";
     if (top != -9 && !gridDatas[top].isTouched) {
       const corX = gridWidth * y;

@@ -1,8 +1,8 @@
 // class for configuration of the canvas
 export default class Config {
   // size of a grid in the canvas
-  static size = 15;
-  static bomCount = 25;
+  static size = 10;
+  static bomCount = 10;
 }
 export class Theme {
   static defaultFontSize = 1000;

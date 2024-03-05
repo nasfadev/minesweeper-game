@@ -35,13 +35,11 @@ export function init() {
     });
     // register event listener for canvas element
     pointer.addEventListener("mousemove", (e) => {
-      clearTimeout(holding);
       // render just one part of the grid
       e.stopPropagation();
       e.preventDefault();
       console.log(e);
-      if (isDown) isCancel = true;
-      pointerRender(e, false, true);
+      pointerRender(e);
     });
     return;
   }
