@@ -13,24 +13,37 @@
     <div class="container">
         <div class="screen">
             <div class="menu">
-                <span class="flags">
-                    <img src="img/flag-icon.png" width="20px" height="20px" alt="" srcset="">
-                    <p>40</p>
-                </span>
+                <div class="status">
+                    <span class="flags">
+                        <img src="img/flag-icon.png" width="20px" height="20px" alt="" srcset="">
+                        <p>40</p>
+                    </span>
 
-                <span class="timer">
-                    <img src="img/timer-icon.png" width="20px" height="20px" alt="" srcset="">
-                    <p>999</p>
-                </span>
+                    <span class="timer">
+                        <img src="img/timer-icon.png" width="20px" height="20px" alt="" srcset="">
+                        <p>999</p>
+                    </span>
+                </div>
+                <div id="set-btn" class="set-btn">
+                    <img src="img/gear.png" alt="" width="20px" height="20px" srcset="">
+                </div>
             </div>
             <div class="content">
                 <div class="game-over">
                     <p>
                         You die.
                     </p>
-                    <span id="play-again" class="play-again button">
+                    <span id="play-again" class="button">
                         Play Again
                     </span>
+                </div>
+                <div class="settings">
+                    <span class="space">Grid Size</span>
+                    <input id="grid-size" class="space" type="number" placeholder="Grid Size">
+
+                    <span class="space">Bomb Count</span>
+                    <input id="bomb-count" class="space" type="number" placeholder="Bomb Count">
+                    <div id="apply-set-btn" class="button space">Apply</div>
                 </div>
                 <canvas id="main-canvas" class="main-canvas" width="2048" height="2048"></canvas>
                 <canvas id="stroke-canvas" class="stroke-canvas" width="2048" height="2048"></canvas>

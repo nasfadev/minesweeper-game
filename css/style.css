@@ -2,6 +2,18 @@
   font-size: 100%;
   background-color: #0f768d;
   user-select: none;
+  font-family: sans-serif;
+}
+::placeholder{
+  color: rgba(255, 255, 255, 0.562);
+}
+input{
+  all: unset;
+  width: 70%;
+  height: 5%;
+  border: white .2rem solid;
+  border-radius: .5rem;
+  padding: .5rem;
 }
 div.container {
   display: flex;
@@ -24,24 +36,32 @@ div.container > div.screen > div.content > canvas {
   width: 100%;
 }
 div.container > div.screen > div.menu {
-  height: 10%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 1.2rem;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    font-size: 1.2rem;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
-div.container > div.screen > div.menu > span {
-  padding-right: 0.3rem;
-  padding-left: 0.3rem;
+div.container > div.screen > div.menu > div.status{
+    display: flex;
+}
+div.container > div.screen > div.menu > div.status > span {
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
   display: flex;
   align-items: center;
 }
-div.container > div.screen > div.menu > span > img {
+div.container > div.screen > div.menu > div.status > span > img {
   width: 1.2rem;
   height: 1.2rem;
+}
+div.container > div.screen > div.menu > div.set-btn > img {
+  width: 1.2rem;
+  height: 1.2rem;
+  pointer-events: none;
 }
 div.container > div.screen > div.footer {
   height: 10%;
@@ -92,20 +112,31 @@ div.container > div.screen > div.content > div.game-over {
   align-items: center;
   z-index: 999;
 }
-div.container > div.screen > div.content > div.game-over > span.play-again {
-  color: white;
-  border: 0.2rem solid white;
-  transition: 0.3s;
+.space{
+  margin-bottom: 10px;
 }
-div.container
-  > div.screen
-  > div.content
-  > div.game-over
-  > span.play-again:hover {
+div.container > div.screen > div.content > div.settings {
+  display: none;
+  font-size: x-large;
+  color: white;
+  position: absolute;
+  border-radius: 2%;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.button:hover {
   color: black;
   background-color: white;
 }
-div.container > div.screen > div.content > div.game-over > span.button {
+.button {
+  color: white;
+  border: 0.2rem solid white;
+  transition: 0.3s;
   cursor: pointer;
   text-align: center;
   border-radius: 0.9rem;

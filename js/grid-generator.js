@@ -7,7 +7,7 @@ import {
   Status,
 } from "./grid-data.js";
 import { win, lose, updateFlagMenu, startTimer } from "./ui-handler.js";
-const gridWidth = Canvas.main.width / Config.size;
+let gridWidth;
 const ctx = Canvas.ctx;
 const ptrCtx = Canvas.ptrCtx;
 const strCtx = Canvas.strCtx;
@@ -19,6 +19,7 @@ const flagIcon = new Image();
 flagIcon.src = Theme.flagIconUrl;
 // function for render all grid in the canvas
 export function renderAll() {
+  gridWidth = Canvas.main.width / Config.size;
   updateFlagMenu();
   lineDrawer();
   // this iterator for making grid in the canvas by using config.size for looping count

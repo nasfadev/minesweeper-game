@@ -1,12 +1,18 @@
 import { init, Status } from "./grid-data.js";
 import { renderAll } from "./grid-generator.js";
-import { gameOverScreen } from "./canvas.js";
+import { gameOverScreen, settingsScreen } from "./canvas.js";
+import Config from "./config.js";
 import * as Canvas from "./canvas.js";
 export function run(e) {
   if (e.target.id == "play-again") {
     reload();
     disappearGameOverUI();
+  } else if (e.target.id == "set-btn") {
+    enableSettingsScreenUI();
+  } else if (e.target.id == "apply-set-btn") {
+    updateSettings();
   }
+  console.log(e);
 }
 
 function reload() {
@@ -15,6 +21,20 @@ function reload() {
 }
 function disappearGameOverUI() {
   gameOverScreen.style.display = "none";
+}
+function enableSettingsScreenUI() {
+  document.getElementById("grid-size").value = Config.size;
+  document.getElementById("bomb-count").value = Config.bomCount;
+  settingsScreen.style.display = "flex";
+}
+function disableSettingsScreenUI() {
+  settingsScreen.style.display = "none";
+}
+function updateSettings() {
+  disableSettingsScreenUI();
+  Config.size = parseInt(document.getElementById("grid-size").value);
+  Config.bomCount = parseInt(document.getElementById("bomb-count").value);
+  reload();
 }
 export function lose() {
   Canvas.gameOverScreen.style.display = "flex";

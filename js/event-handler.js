@@ -1,4 +1,4 @@
-import { pointer, gameOverScreen } from "./canvas.js";
+import { pointer } from "./canvas.js";
 import { partialRender, pointerRender } from "./grid-generator.js";
 import { run as runUI } from "./ui-handler.js";
 import initStyle from "./style.js";
@@ -17,7 +17,7 @@ export function init() {
     e.preventDefault();
   });
   // register event listener for canvas element
-  gameOverScreen.addEventListener("mouseup", (e) => {
+  window.addEventListener("mouseup", (e) => {
     // render just one part of the grid
     runUI(e);
     e.stopPropagation();
@@ -38,7 +38,6 @@ export function init() {
       // render just one part of the grid
       e.stopPropagation();
       e.preventDefault();
-      console.log(e);
       pointerRender(e);
     });
     return;
