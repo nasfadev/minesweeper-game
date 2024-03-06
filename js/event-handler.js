@@ -71,13 +71,13 @@ export function init() {
     }
     partialRender(e, false, true);
   });
-  // pointer.addEventListener("touchmove", (e) => {
-  //   clearTimeout(holding);
-  //   // render just one part of the grid
-  //   e.stopPropagation();
-  //   e.preventDefault();
-  //   console.log(e);
-  //   if (isDown) isCancel = true;
-  //   pointerRender(e, false, true);
-  // });
+  pointer.addEventListener("touchmove", (e) => {
+    clearTimeout(holding);
+    // render just one part of the grid
+    e.stopPropagation();
+    e.preventDefault();
+    console.log(e);
+    if (isDown) isCancel = true;
+    pointerRender(e, false, true);
+  });
 }
