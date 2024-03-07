@@ -6,11 +6,11 @@ This project purposes for just test my javascript skill, so basicaly this is jus
 
 ## Features
 
-- Grids auto solver (personaly i like this feature)
-- Simple control
-- Mobile support
-- Customize grids size and bombs count (in UI settings)
-- Sound effects
+- **Grids auto solver** (personaly i like this feature)
+- **Simple control**
+- **Mobile support**
+- **Customize grids size and bombs count** (in UI settings)
+- **Sound effects**
 
 ## Some Previews
 
@@ -37,15 +37,36 @@ Another auto solver, but with flaged grid block, so if a block near flaged block
 
 <details>
 <summary>
-Dekstop
+<strong>Dekstop</strong>
 </summary>
 
-- #### Break Block
-  `Left Click` on block that hasn't break.
-- #### Flagging The Block
-      `Right Click` on block that hasn't break.
-  </details>
+- #### Break The Block
+    `Left Click` on block that hasn't broken.
+- #### Flag The Block
+    `Right Click` on block that hasn't broken.
+- #### Remove The Flag From The Block
+    `Right Click` on flagged block.
+- #### Auto Solver On The Numbered Block That's Near The Flagged Block
 
+  `Left CLick` on highlighted numbered block.
+</details>
+<details>
+<summary>
+<strong>Mobile</strong>
+</summary>
+
+- #### Break The Block
+    `Touch` on block that hasn't broken.
+- #### Flag The Block
+    `Holding Touch` on block that hasn't broken.
+- #### Remove The Flag From The Block
+    `Holding Touch` on flagged block.
+- #### Auto Solver On The Numbered Block That's Near The Flagged Block
+    `Touch` on highlighted numbered block.
+</details>
+
+## Play Online
+https://nasfadev-minesweeper.netlify.app/
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
